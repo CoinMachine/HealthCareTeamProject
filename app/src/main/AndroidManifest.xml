@@ -20,6 +20,10 @@
             android:name=".ExerciseLogListActivity"
             android:label="@string/title_activity_exercise_log_list" >
         </activity>
+        <activity
+            android:name=".LogAddActivity"
+            android:label="@string/title_activity_log_add" >
+        </activity>
     </application>
 
 </manifest>

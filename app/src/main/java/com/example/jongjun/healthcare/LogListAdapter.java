@@ -23,10 +23,11 @@ public class LogListAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         View view=convertView;
-        if(view==null){
+        if(convertView==null){
             view =((LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.log_list,parent,false);
         }
         ((TextView)view.findViewById(R.id.log_list_day_text)).setText(list.get(position).day);
+        ((TextView)view.findViewById(R.id.log_list_weight_text)).setText(list.get(position).weight);
         return view;
     }
 
