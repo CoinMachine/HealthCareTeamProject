@@ -43,6 +43,7 @@ import java.util.ArrayList;
 
 public class ExerciseLogListActivity extends ActionBarActivity {
     static final int LOG_ADD=1;
+    static final int LOG_UPDATE=2;
     final String FILENAME="exercise.dat";
     
 
@@ -87,6 +88,11 @@ public class ExerciseLogListActivity extends ActionBarActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 //리스트 아이템 클릭시 수정할 액티비티 창을 띄워 준다.
+                Intent intent = new Intent(ExerciseLogListActivity.this, LogAddActivity.class);
+                intent.putExtra("log",logArrayList.get(position));
+                intent.putExtra("position",position);
+                intent.putExtra("update",true);
+                startActivityForResult(intent,LOG_UPDATE);
             }
         });
 
@@ -141,6 +147,14 @@ public class ExerciseLogListActivity extends ActionBarActivity {
         if(LOG_ADD==requestCode){
             if(RESULT_OK==resultCode){
                 logArrayList.add((ExerciseLog)data.getSerializableExtra("log"));
+                currentWeight.setText(((ExerciseLog) data.getSerializableExtra("log")).weight);
+                logListAdapter.notifyDataSetChanged();
+            }
+        }
+        if(LOG_UPDATE==requestCode){
+            if(RESULT_OK==resultCode){
+                logArrayList.set(data.getIntExtra("position",0),
+                        (ExerciseLog)data.getSerializableExtra("log"));
                 logListAdapter.notifyDataSetChanged();
             }
         }

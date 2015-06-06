@@ -13,11 +13,23 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal">
 
-        <Button
+        <LinearLayout
+            android:orientation="vertical"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="저장"
-            android:id="@+id/storeButton1" />
+            android:layout_height="wrap_content">
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="저장"
+                android:id="@+id/storeButton1" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="취소"
+                android:id="@+id/cancelButton1" />
+        </LinearLayout>
 
         <LinearLayout
             android:orientation="vertical"
@@ -37,10 +49,11 @@
                     android:id="@+id/textView2"
                     android:textAppearance="?android:attr/textAppearanceMedium" />
 
-                <EditText
+                <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/dayEdit1" />
+                    android:id="@+id/dayText1"
+                    android:textAppearance="?android:attr/textAppearanceMedium"/>
 
             </LinearLayout>
 
@@ -59,14 +72,26 @@
                 <EditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/weightEdit1" />
+                    android:inputType="numberDecimal"
+                    android:ems="10"
+                    android:id="@+id/weightEdit1"
+                    android:textColorHint="#a6ff7e68"
+                    android:hint="&quot;체중을 입력하세요&quot;"
+                    android:gravity="center" />
 
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>
 
+
     <EditText
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/editMemo1" />
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:inputType="textMultiLine"
+        android:ems="10"
+        android:id="@+id/editMemo1"
+        android:hint="&quot;일지를 작성해보세요&quot;"
+        android:gravity="top|left"
+        android:textColorHint="#a6ff7e68" />
+
 </LinearLayout>

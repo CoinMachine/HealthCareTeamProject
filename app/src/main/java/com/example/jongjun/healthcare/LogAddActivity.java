@@ -1,5 +1,7 @@
 package com.example.jongjun.healthcare;
 
+import android.app.DatePickerDialog;
+import android.app.Dialog;
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -7,17 +9,52 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 
 //운동일지를 생성해서 저장 해 줄 클래스
 public class LogAddActivity extends ActionBarActivity {
 
-    EditText memo,weight,day;
+    EditText memo,weight;
+    TextView day;
     ArrayList<ExerciseLog> list;
-    Button store;
+    Button store,cancel;
+    int position=0; // 수정 시 리스트의 위치를 나타내는 변수
+
+    private int mYear;
+    private int mMonth;
+    private int mDay;
+    static final int DATE_DIALOG_ID=0;
+
+
+//-----------------------------달력함수-----------------------------------------------------//
+    private DatePickerDialog.OnDateSetListener listener = new DatePickerDialog.OnDateSetListener() {
+        @Override
+        public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+            mYear=year;
+            mMonth=monthOfYear;
+            mDay=dayOfMonth;
+            updateDisplay();
+        }
+    };
+    @Override
+    protected Dialog onCreateDialog(int id) {
+        switch (id){
+            case DATE_DIALOG_ID:
+                return new DatePickerDialog(this, listener,mYear,mMonth,mDay);
+        }
+        return null;
+    }
+
+    private void updateDisplay(){
+        day.setText(new StringBuilder().append(" ")
+                .append(mYear).append("년 ").append(mMonth+1).append("월 ").append(mDay).append("일"));
+    }
+//--------------------------------------------------------------------------------------//
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,10 +62,35 @@ public class LogAddActivity extends ActionBarActivity {
         setContentView(R.layout.activity_log_add);
 
         weight=(EditText)findViewById(R.id.weightEdit1);
-        day=(EditText)findViewById(R.id.dayEdit1);
+        day=(TextView)findViewById(R.id.dayText1);
         memo=(EditText)findViewById(R.id.editMemo1);
         store=(Button)findViewById(R.id.storeButton1);
+        cancel=(Button)findViewById(R.id.cancelButton1);
 
+
+
+        final Calendar c = Calendar.getInstance();
+        mYear=c.get(Calendar.YEAR);
+        mMonth=c.get(Calendar.MONTH);
+        mDay=c.get(Calendar.DAY_OF_MONTH);
+
+        updateDisplay();
+
+        //LOG_UPDATE인 경우
+        if(getIntent().getBooleanExtra("update",false)) {
+            Intent intent = getIntent();
+            day.setText(((ExerciseLog) intent.getSerializableExtra("log")).day);
+            weight.setText(((ExerciseLog) intent.getSerializableExtra("log")).weight);
+            memo.setText(((ExerciseLog) intent.getSerializableExtra("log")).memo);
+            position = intent.getIntExtra("position", 0);
+        }
+
+        day.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showDialog(DATE_DIALOG_ID);
+            }
+        });
 
         store.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -39,7 +101,16 @@ public class LogAddActivity extends ActionBarActivity {
                         weight.getText().toString(),
                         day.getText().toString(),
                         memo.getText().toString()));
+                intent.putExtra("position",position);
                 setResult(RESULT_OK,intent);
+                finish();
+            }
+        });
+
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setResult(RESULT_CANCELED);
                 finish();
             }
         });

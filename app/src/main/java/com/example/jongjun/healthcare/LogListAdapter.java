@@ -28,6 +28,14 @@ public class LogListAdapter extends BaseAdapter {
         }
         ((TextView)view.findViewById(R.id.log_list_day_text)).setText(list.get(position).day);
         ((TextView)view.findViewById(R.id.log_list_weight_text)).setText(list.get(position).weight);
+        //메모가 너무 길면 잘라서 보여준다.
+        if(list.get(position).memo.length()>16) {
+            ((TextView) view.findViewById(R.id.log_list_memo_text)).setText(String.copyValueOf(
+                    list.get(position).memo.toCharArray(), 0, 15));
+            ((TextView) view.findViewById(R.id.log_list_memo_text)).append("...");
+        }else{
+            ((TextView) view.findViewById(R.id.log_list_memo_text)).setText(list.get(position).memo);
+        }
         return view;
     }
 
