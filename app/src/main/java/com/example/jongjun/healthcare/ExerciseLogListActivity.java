@@ -44,6 +44,8 @@ import java.util.ArrayList;
 public class ExerciseLogListActivity extends ActionBarActivity {
     static final int LOG_ADD=1;
     static final int LOG_UPDATE=2;
+    static final int DELETE=666; // 데이터를 지울때 받는 값
+
     final String FILENAME="exercise.dat";
     
 
@@ -155,6 +157,10 @@ public class ExerciseLogListActivity extends ActionBarActivity {
             if(RESULT_OK==resultCode){
                 logArrayList.set(data.getIntExtra("position",0),
                         (ExerciseLog)data.getSerializableExtra("log"));
+                logListAdapter.notifyDataSetChanged();
+            }
+            if(DELETE==resultCode){
+                logArrayList.remove(data.getIntExtra("position",0));
                 logListAdapter.notifyDataSetChanged();
             }
         }

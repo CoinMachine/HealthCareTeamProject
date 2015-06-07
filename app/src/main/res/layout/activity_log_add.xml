@@ -10,31 +10,27 @@
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal">
+        android:layout_height="match_parent"
+        android:layout_gravity="center_horizontal"
+        android:layout_weight="1">
 
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            android:layout_height="match_parent">
 
-            <Button
+            <ImageView
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="저장"
-                android:id="@+id/storeButton1" />
-
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="취소"
-                android:id="@+id/cancelButton1" />
+                android:layout_height="match_parent"
+                android:src="@drawable/ic_action_camera"
+                android:id="@+id/imageView"
+                android:layout_marginRight="8dp" />
         </LinearLayout>
 
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:baselineAligned="false">
 
             <LinearLayout
@@ -80,18 +76,54 @@
                     android:gravity="center" />
 
             </LinearLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right">
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="저장"
+                    android:id="@+id/storeButton1"
+                    android:layout_weight="1" />
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="취소"
+                    android:id="@+id/cancelButton1"
+                    android:layout_weight="1" />
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="삭제"
+                    android:id="@+id/deleteButton1"
+                    android:layout_weight="1"
+                    android:visibility="invisible" />
+            </LinearLayout>
         </LinearLayout>
     </LinearLayout>
 
 
-    <EditText
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:inputType="textMultiLine"
-        android:ems="10"
-        android:id="@+id/editMemo1"
-        android:hint="&quot;일지를 작성해보세요&quot;"
-        android:gravity="top|left"
-        android:textColorHint="#a6ff7e68" />
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="0.4">
+
+        <EditText
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:inputType="textMultiLine"
+            android:ems="10"
+            android:id="@+id/editMemo1"
+            android:hint="&quot;일지를 작성해보세요&quot;"
+            android:gravity="top|left"
+            android:textColorHint="#a6ff7e68" />
+    </LinearLayout>
 
 </LinearLayout>

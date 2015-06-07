@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -19,16 +20,19 @@ import java.util.Calendar;
 //운동일지를 생성해서 저장 해 줄 클래스
 public class LogAddActivity extends ActionBarActivity {
 
+    ImageView photo;
     EditText memo,weight;
     TextView day;
     ArrayList<ExerciseLog> list;
     Button store,cancel;
+    Button delete;
     int position=0; // 수정 시 리스트의 위치를 나타내는 변수
 
     private int mYear;
     private int mMonth;
     private int mDay;
     static final int DATE_DIALOG_ID=0;
+    static final int DELETE=666; // 데이터를 지울 때 주는 값
 
 
 //-----------------------------달력함수-----------------------------------------------------//
@@ -66,6 +70,8 @@ public class LogAddActivity extends ActionBarActivity {
         memo=(EditText)findViewById(R.id.editMemo1);
         store=(Button)findViewById(R.id.storeButton1);
         cancel=(Button)findViewById(R.id.cancelButton1);
+        delete=(Button)findViewById(R.id.deleteButton1);
+        photo=(ImageView)findViewById(R.id.imageView);
 
 
 
@@ -82,6 +88,7 @@ public class LogAddActivity extends ActionBarActivity {
             day.setText(((ExerciseLog) intent.getSerializableExtra("log")).day);
             weight.setText(((ExerciseLog) intent.getSerializableExtra("log")).weight);
             memo.setText(((ExerciseLog) intent.getSerializableExtra("log")).memo);
+            delete.setVisibility(View.VISIBLE);
             position = intent.getIntExtra("position", 0);
         }
 
@@ -114,6 +121,19 @@ public class LogAddActivity extends ActionBarActivity {
                 finish();
             }
         });
+
+        delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent();
+                intent.putExtra("position",position);
+                setResult(DELETE,intent);
+                finish();
+            }
+        });
+
+
+
 
     }
 

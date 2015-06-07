@@ -3,7 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.example.jongjun.healthcare.ExerciseLogListActivity">
     <item android:id="@+id/add"
-        android:title="일지 추가"/>
+        android:title="일지 추가"
+        android:icon="@drawable/ic_action_edit"
+        app:showAsAction="always"/>
     <item android:id="@+id/info"
         android:title="도움말"/>
 </menu>
