@@ -8,6 +8,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.FileInputStream;
@@ -16,6 +18,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /*
@@ -27,22 +30,64 @@ import java.util.ArrayList;
 *
 * */
 
+class UserData implements Serializable{
+    private static final long serialVersionUID = -5234135919664263905L;
+    String name,weight;
+    public UserData(String name, String weight){
+        this.name=name;
+        this.weight=weight;
+    }
+}
 public class MainActivity extends ActionBarActivity {
+    final String FILENAME1 = "user.dat";
     static final int EXERCISE_VIEW=1;
-    Button button;
-
+    static final int USER_SET_VIEW=2;
+    ImageButton exerciseButton,userButton;
+    TextView name,weight;
+    UserData userData;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        button=(Button)findViewById(R.id.exerciseButton);
-        button.setOnClickListener(new View.OnClickListener() {
+        name=(TextView)findViewById(R.id.main_name_text);
+        weight=(TextView)findViewById(R.id.main_weight_text);
+        exerciseButton=(ImageButton)findViewById(R.id.exerciseButton);
+        userButton=(ImageButton)findViewById(R.id.userButton);
+
+        try {
+            FileInputStream fis = openFileInput(FILENAME1);
+            ObjectInputStream ois = new ObjectInputStream(fis);
+            userData = (UserData)ois.readObject();
+            ois.close();
+            fis.close();
+        }catch (FileNotFoundException e){
+            userData=new UserData(name.getText().toString(),weight.getText().toString());
+            Toast.makeText(getApplicationContext(),"사람 모양 버튼을 누르고 데이터를 입력하세요",Toast.LENGTH_SHORT).show();
+        }catch (IOException e1){
+            //디버깅용 코드
+            Toast.makeText(getApplicationContext(),"IO exception1",Toast.LENGTH_SHORT).show();
+        }catch (ClassNotFoundException e2){
+            //디버깅용 코드
+            Toast.makeText(getApplicationContext(),"class not found exception1",Toast.LENGTH_SHORT).show();
+        }
+
+
+        exerciseButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this,ExerciseLogListActivity.class);
-                startActivityForResult(intent,EXERCISE_VIEW);
+                intent.putExtra("weight3",weight.getText().toString());
+                startActivityForResult(intent, EXERCISE_VIEW);
+            }
+        });
+
+        userButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, UserSetActivity.class);
+                startActivityForResult(intent,USER_SET_VIEW);
             }
         });
     }
@@ -54,12 +99,31 @@ public class MainActivity extends ActionBarActivity {
 
             }
         }
+        if(USER_SET_VIEW==requestCode){
+            if(RESULT_OK==resultCode){
+                name.setText(data.getStringExtra("name"));
+                weight.setText(data.getStringExtra("weight"));
+            }
+        }
 
     }
 
     @Override
     protected void onStop() {
         super.onStop();
+        try{
+            FileOutputStream fos = openFileOutput(FILENAME1, MODE_PRIVATE);
+            ObjectOutputStream oos = new ObjectOutputStream(fos);
+            oos.writeObject(userData);
+            oos.close();
+            fos.close();
+        }catch (FileNotFoundException e){
+            //디버깅용 코드
+            Toast.makeText(getApplicationContext(),"File not found exception2",Toast.LENGTH_SHORT).show();
+        }catch (IOException e1){
+            //디버깅용 코드
+            Toast.makeText(getApplicationContext(),"IO exception2",Toast.LENGTH_SHORT).show();
+        }
 
     }
 

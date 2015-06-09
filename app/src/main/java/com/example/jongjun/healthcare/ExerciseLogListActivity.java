@@ -72,8 +72,7 @@ public class ExerciseLogListActivity extends ActionBarActivity {
             fis.close();
         }catch (FileNotFoundException e){
             logArrayList=new ArrayList<>();
-            //디버깅용 코드
-            Toast.makeText(getApplicationContext(),"File not found exception1",Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(),"운동일지를 작성해보세요",Toast.LENGTH_SHORT).show();
         }catch (IOException e1){
             //디버깅용 코드
             Toast.makeText(getApplicationContext(),"IO exception1",Toast.LENGTH_SHORT).show();
@@ -82,7 +81,8 @@ public class ExerciseLogListActivity extends ActionBarActivity {
             Toast.makeText(getApplicationContext(),"class not found exception1",Toast.LENGTH_SHORT).show();
         }
 
-
+        firstWeight.setText(getIntent().getStringExtra("weight3"));
+        firstWeight.append("Kg");
 
         logListAdapter=new LogListAdapter(this,logArrayList);
         logListView.setAdapter(logListAdapter);
@@ -150,6 +150,7 @@ public class ExerciseLogListActivity extends ActionBarActivity {
             if(RESULT_OK==resultCode){
                 logArrayList.add((ExerciseLog)data.getSerializableExtra("log"));
                 currentWeight.setText(((ExerciseLog) data.getSerializableExtra("log")).weight);
+                currentWeight.append("Kg");
                 logListAdapter.notifyDataSetChanged();
             }
         }

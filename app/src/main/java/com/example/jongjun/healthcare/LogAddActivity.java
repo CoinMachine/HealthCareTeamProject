@@ -3,6 +3,9 @@ package com.example.jongjun.healthcare;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
+import android.provider.MediaStore;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -27,16 +30,19 @@ public class LogAddActivity extends ActionBarActivity {
     Button store,cancel;
     Button delete;
     int position=0; // 수정 시 리스트의 위치를 나타내는 변수
+    SerialBitmap userImage;//이미지 비트맵 저장 변수
 
     private int mYear;
     private int mMonth;
     private int mDay;
     static final int DATE_DIALOG_ID=0;
     static final int DELETE=666; // 데이터를 지울 때 주는 값
+    static final int CAMERA_CAPTURE=1;//카메라 인텐트
 
 
 //-----------------------------달력함수-----------------------------------------------------//
-    private DatePickerDialog.OnDateSetListener listener = new DatePickerDialog.OnDateSetListener() {
+    private DatePickerDialog.OnDateSetListener listener
+        = new DatePickerDialog.OnDateSetListener() {
         @Override
         public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
             mYear=year;
@@ -75,6 +81,7 @@ public class LogAddActivity extends ActionBarActivity {
 
 
 
+
         final Calendar c = Calendar.getInstance();
         mYear=c.get(Calendar.YEAR);
         mMonth=c.get(Calendar.MONTH);
@@ -89,6 +96,11 @@ public class LogAddActivity extends ActionBarActivity {
             weight.setText(((ExerciseLog) intent.getSerializableExtra("log")).weight);
             memo.setText(((ExerciseLog) intent.getSerializableExtra("log")).memo);
             delete.setVisibility(View.VISIBLE);
+            userImage=((ExerciseLog) intent.getSerializableExtra("log")).image;
+            if(userImage!=null) {
+                photo.setImageBitmap(userImage.getBitmap());
+                photo.setScaleType(ImageView.ScaleType.FIT_XY);
+            }
             position = intent.getIntExtra("position", 0);
         }
 
@@ -107,7 +119,8 @@ public class LogAddActivity extends ActionBarActivity {
                 intent.putExtra("log",new ExerciseLog(
                         weight.getText().toString(),
                         day.getText().toString(),
-                        memo.getText().toString()));
+                        memo.getText().toString(),
+                        userImage));
                 intent.putExtra("position",position);
                 setResult(RESULT_OK,intent);
                 finish();
@@ -132,11 +145,25 @@ public class LogAddActivity extends ActionBarActivity {
             }
         });
 
-
-
-
+        photo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i =new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                startActivityForResult(i, CAMERA_CAPTURE);
+            }
+        });
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data){
+        if(CAMERA_CAPTURE==requestCode){
+            if(RESULT_OK==resultCode){
+                userImage = new SerialBitmap((Bitmap)data.getExtras().get("data"));
+                photo.setImageBitmap(userImage.getBitmap());
+                photo.setScaleType(ImageView.ScaleType.FIT_XY);
+            }
+        }
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
