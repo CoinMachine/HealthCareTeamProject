@@ -1,6 +1,7 @@
 package com.example.jongjun.healthcare;
 
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
@@ -9,6 +10,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -45,6 +47,7 @@ public class ExerciseLogListActivity extends ActionBarActivity {
     static final int LOG_ADD=1;
     static final int LOG_UPDATE=2;
     static final int DELETE=666; // 데이터를 지울때 받는 값
+    static final int INFO_DIALOG=45;
 
     final String FILENAME="exercise.dat";
     
@@ -139,9 +142,33 @@ public class ExerciseLogListActivity extends ActionBarActivity {
                 Intent intent=new Intent(ExerciseLogListActivity.this,LogAddActivity.class);
                 startActivityForResult(intent,LOG_ADD);
                 return true;
+            case R.id.info:
+                showDialog(INFO_DIALOG);
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    @Override
+    protected Dialog onCreateDialog(int id){
+        Dialog dialog=null;
+        switch (id){
+            case INFO_DIALOG:
+                dialog=new Dialog(this);
+                dialog.setContentView(R.layout.dialog_info_exercise_loglist);
+                dialog.setTitle("도움말");
+                TextView textView = (TextView)dialog.findViewById(R.id.introduction);
+                textView.setText(":클릭시 일지 추가");
+                ImageView imageView = (ImageView) dialog.findViewById(R.id.infoimage);
+                imageView.setImageResource(R.drawable.ic_action_edit_black);
+                TextView textView1=(TextView)dialog.findViewById(R.id.introduction2);
+                textView1.setText("리스트 클릭시 해당 일지 수정\n" +
+                        "첫 체중: 사용자 등록 시의 체중\n" +
+                        "현재 체중: 마지막 일지의 체중");
+                break;
+        }
+        return dialog;
     }
 
     @Override

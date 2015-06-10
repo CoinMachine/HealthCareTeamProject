@@ -1,6 +1,8 @@
 package com.example.jongjun.healthcare;
 
+import android.app.Activity;
 import android.content.Intent;
+import android.net.Uri;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -40,12 +42,12 @@ class UserData implements Serializable{
         this.weight=weight;
     }
 }
-public class MainActivity extends ActionBarActivity {
+public class MainActivity extends Activity {
     final String FILENAME1 = "user.dat";
-    static final int EXERCISE_VIEW=1;
-    static final int USER_SET_VIEW=2;
-    ImageButton exerciseButton,userButton;
-    TextView name,weight;
+    static final int EXERCISE_VIEW = 1;
+    static final int USER_SET_VIEW = 2;
+    ImageButton exerciseButton, userButton, infoButton;
+    TextView name, weight;
     UserData userData;
 
     @Override
@@ -53,36 +55,37 @@ public class MainActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        name=(TextView)findViewById(R.id.main_name_text);
-        weight=(TextView)findViewById(R.id.main_weight_text);
-        exerciseButton=(ImageButton)findViewById(R.id.exerciseButton);
-        userButton=(ImageButton)findViewById(R.id.userButton);
+        name = (TextView) findViewById(R.id.main_name_text);
+        weight = (TextView) findViewById(R.id.main_weight_text);
+        exerciseButton = (ImageButton) findViewById(R.id.exerciseButton);
+        userButton = (ImageButton) findViewById(R.id.userButton);
+        infoButton = (ImageButton) findViewById(R.id.infoButton);
 
         try {
             FileInputStream fis = openFileInput(FILENAME1);
             ObjectInputStream ois = new ObjectInputStream(fis);
-            userData = (UserData)ois.readObject();
+            userData = (UserData) ois.readObject();
             name.setText(userData.name);
             weight.setText(userData.weight);
             ois.close();
             fis.close();
-        }catch (FileNotFoundException e){
-            userData=new UserData(name.getText().toString(),weight.getText().toString());
-            Toast.makeText(getApplicationContext(),"사람 모양 버튼을 누르고 데이터를 입력하세요",Toast.LENGTH_SHORT).show();
-        }catch (IOException e1){
+        } catch (FileNotFoundException e) {
+            userData = new UserData(name.getText().toString(), weight.getText().toString());
+            Toast.makeText(getApplicationContext(), "사람 모양 버튼을 누르고 데이터를 입력하세요", Toast.LENGTH_SHORT).show();
+        } catch (IOException e1) {
             //디버깅용 코드
-            Toast.makeText(getApplicationContext(),"IO exception1",Toast.LENGTH_SHORT).show();
-        }catch (ClassNotFoundException e2){
+            Toast.makeText(getApplicationContext(), "IO exception1", Toast.LENGTH_SHORT).show();
+        } catch (ClassNotFoundException e2) {
             //디버깅용 코드
-            Toast.makeText(getApplicationContext(),"class not found exception1",Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "class not found exception1", Toast.LENGTH_SHORT).show();
         }
 
 
         exerciseButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this,ExerciseLogListActivity.class);
-                intent.putExtra("weight3",weight.getText().toString());
+                Intent intent = new Intent(MainActivity.this, ExerciseLogListActivity.class);
+                intent.putExtra("weight3", weight.getText().toString());
                 startActivityForResult(intent, EXERCISE_VIEW);
             }
         });
@@ -91,24 +94,34 @@ public class MainActivity extends ActionBarActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, UserSetActivity.class);
-                startActivityForResult(intent,USER_SET_VIEW);
+                startActivityForResult(intent, USER_SET_VIEW);
+            }
+        });
+
+        infoButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Intent.ACTION_VIEW);
+                Uri uri = Uri.parse("http://terms.naver.com/list.nhn?cid=51029&categoryId=51029");
+                intent.setData(uri);
+                startActivity(intent);
             }
         });
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data){
-        if(EXERCISE_VIEW==requestCode){
-            if(RESULT_OK==resultCode){
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (EXERCISE_VIEW == requestCode) {
+            if (RESULT_OK == resultCode) {
 
             }
         }
-        if(USER_SET_VIEW==requestCode){
-            if(RESULT_OK==resultCode){
+        if (USER_SET_VIEW == requestCode) {
+            if (RESULT_OK == resultCode) {
                 name.setText(data.getStringExtra("name"));
                 weight.setText(data.getStringExtra("weight"));
-                userData.name=data.getStringExtra("name");
-                userData.weight=data.getStringExtra("weight");
+                userData.name = data.getStringExtra("name");
+                userData.weight = data.getStringExtra("weight");
             }
         }
 
@@ -117,41 +130,19 @@ public class MainActivity extends ActionBarActivity {
     @Override
     protected void onStop() {
         super.onStop();
-        try{
+        try {
             FileOutputStream fos = openFileOutput(FILENAME1, MODE_PRIVATE);
             ObjectOutputStream oos = new ObjectOutputStream(fos);
             oos.writeObject(userData);
             oos.close();
             fos.close();
-        }catch (FileNotFoundException e){
+        } catch (FileNotFoundException e) {
             //디버깅용 코드
-            Toast.makeText(getApplicationContext(),"File not found exception2",Toast.LENGTH_SHORT).show();
-        }catch (IOException e1){
+            Toast.makeText(getApplicationContext(), "File not found exception2", Toast.LENGTH_SHORT).show();
+        } catch (IOException e1) {
             //디버깅용 코드
-            Toast.makeText(getApplicationContext(),"IO exception2",Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "IO exception2", Toast.LENGTH_SHORT).show();
         }
 
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
     }
 }
