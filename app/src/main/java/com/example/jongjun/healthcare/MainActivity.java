@@ -33,6 +33,8 @@ import java.util.ArrayList;
 class UserData implements Serializable{
     private static final long serialVersionUID = -5234135919664263905L;
     String name,weight;
+    public UserData(){
+    }
     public UserData(String name, String weight){
         this.name=name;
         this.weight=weight;
@@ -60,6 +62,8 @@ public class MainActivity extends ActionBarActivity {
             FileInputStream fis = openFileInput(FILENAME1);
             ObjectInputStream ois = new ObjectInputStream(fis);
             userData = (UserData)ois.readObject();
+            name.setText(userData.name);
+            weight.setText(userData.weight);
             ois.close();
             fis.close();
         }catch (FileNotFoundException e){
@@ -103,6 +107,8 @@ public class MainActivity extends ActionBarActivity {
             if(RESULT_OK==resultCode){
                 name.setText(data.getStringExtra("name"));
                 weight.setText(data.getStringExtra("weight"));
+                userData.name=data.getStringExtra("name");
+                userData.weight=data.getStringExtra("weight");
             }
         }
 
