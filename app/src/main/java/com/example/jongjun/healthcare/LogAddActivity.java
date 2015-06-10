@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -17,6 +18,9 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 
@@ -149,6 +153,8 @@ public class LogAddActivity extends ActionBarActivity {
             @Override
             public void onClick(View v) {
                 Intent i =new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                File file = new File(Environment.getExternalStorageDirectory(), "picture.jpg");
+                i.putExtra(MediaStore.EXTRA_OUTPUT,Uri.fromFile(file));
                 startActivityForResult(i, CAMERA_CAPTURE);
             }
         });
@@ -158,7 +164,16 @@ public class LogAddActivity extends ActionBarActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data){
         if(CAMERA_CAPTURE==requestCode){
             if(RESULT_OK==resultCode){
-                userImage = new SerialBitmap((Bitmap)data.getExtras().get("data"));
+                Bitmap captureBmp=null;
+                Bitmap sizingBmp=null;
+                File file = new File(Environment.getExternalStorageDirectory(), "picture.jpg");
+                try{
+                    captureBmp= MediaStore.Images.Media.getBitmap(getContentResolver(),Uri.fromFile(file));
+                    sizingBmp=Bitmap.createScaledBitmap(captureBmp,captureBmp.getWidth()/6,captureBmp.getHeight()/6,true);
+                }catch (FileNotFoundException e){
+                }catch (IOException e){}
+
+                userImage = new SerialBitmap(sizingBmp);
                 photo.setImageBitmap(userImage.getBitmap());
                 photo.setScaleType(ImageView.ScaleType.FIT_XY);
             }
