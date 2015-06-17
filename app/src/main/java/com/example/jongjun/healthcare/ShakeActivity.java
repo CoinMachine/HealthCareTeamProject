@@ -7,8 +7,18 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 
 public class ShakeActivity extends Activity implements SensorEventListener {
+    final String FILENAME = "maxCount.dat";
+    private int maxCount;
 
     private long lastTime;
     private float speed;
@@ -27,6 +37,7 @@ public class ShakeActivity extends Activity implements SensorEventListener {
     private Sensor accelerormeterSensor;
 
     TextView countText;
+    TextView maxCountText;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,6 +45,21 @@ public class ShakeActivity extends Activity implements SensorEventListener {
         countText = (TextView)findViewById(R.id.countText);
         sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
         accelerormeterSensor = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+
+        try {
+            FileInputStream fis = openFileInput(FILENAME);
+            ObjectInputStream ois = new ObjectInputStream(fis);
+            maxCount=ois.readInt();
+            ois.close();
+            fis.close();
+        } catch (FileNotFoundException e) {
+            maxCount=0;
+        } catch (IOException e1) {
+            //디버깅용 코드
+            //Toast.makeText(getApplicationContext(), "IO exception1", Toast.LENGTH_SHORT).show();
+        }
+        maxCountText=(TextView)findViewById(R.id.maxTextView);
+        maxCountText.setText(""+maxCount);
     }
 
     @Override
@@ -49,6 +75,21 @@ public class ShakeActivity extends Activity implements SensorEventListener {
         super.onStop();
         if (sensorManager != null)
             sensorManager.unregisterListener(this);
+        if(count>maxCount)
+            maxCount=count;
+        try {
+            FileOutputStream fos = openFileOutput(FILENAME, MODE_PRIVATE);
+            ObjectOutputStream oos = new ObjectOutputStream(fos);
+            oos.writeInt(maxCount);
+            oos.close();
+            fos.close();
+        } catch (FileNotFoundException e) {
+            //디버깅용 코드
+            //Toast.makeText(getApplicationContext(), "File not found exception2", Toast.LENGTH_SHORT).show();
+        } catch (IOException e1) {
+            //디버깅용 코드
+            //Toast.makeText(getApplicationContext(), "IO exception2", Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override

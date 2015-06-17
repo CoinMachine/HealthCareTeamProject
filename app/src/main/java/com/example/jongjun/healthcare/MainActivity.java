@@ -49,6 +49,7 @@ public class MainActivity extends Activity {
     final String FILENAME1 = "user.dat";
     final String FILENAME_USER_IMAGE = "userImage.dat";
 
+
     static final int EXERCISE_VIEW = 1;
     static final int USER_SET_VIEW = 2;
     static final int DIALOG_INFO=3;
