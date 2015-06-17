@@ -27,13 +27,20 @@
             android:text="추가"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
-        </LinearLayout>
-    <TextView
-        android:layout_weight="0"
-        android:id="@+id/resAddCal"
-        android:hint="검색결과"
+    </LinearLayout>
+    <LinearLayout
+        android:orientation="horizontal"
         android:layout_width="fill_parent"
-        android:layout_height="40dp" />
+        android:layout_height="wrap_content">
+        <TextView
+            android:layout_weight="1"
+            android:id="@+id/resAddCal"
+            android:hint="검색결과"
+            android:layout_width="fill_parent"
+            android:layout_height="40dp" />
+
+    </LinearLayout>
+
     <LinearLayout
         android:layout_weight="1"
         android:orientation="horizontal"
@@ -48,7 +55,7 @@
                 android:layout_weight="1"
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"></ListView>
-            </LinearLayout>
+        </LinearLayout>
         <LinearLayout
             android:layout_weight="0"
             android:orientation="vertical"
@@ -75,9 +82,9 @@
                 android:layout_weight="1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
-            </LinearLayout>
-
         </LinearLayout>
+
+    </LinearLayout>
     <LinearLayout
         android:layout_weight="0"
         android:orientation="horizontal"
@@ -98,6 +105,6 @@
             android:layout_weight="1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
-        </LinearLayout>
+    </LinearLayout>
 
 </LinearLayout>

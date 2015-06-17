@@ -3,4 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.example.jongjun.healthcare.AddFoodTable">
 
+    <item android:id="@+id/ActivtiyDel"
+        android:title="식단 삭제"
+        android:icon="@drawable/delete"
+        app:showAsAction="always"></item>
+
 </menu>

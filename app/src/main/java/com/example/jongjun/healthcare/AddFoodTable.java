@@ -65,11 +65,10 @@ public class AddFoodTable extends ActionBarActivity {
     Button select;
     Button selectDate;
     Boolean check = false;
-    String collectName[];
 
     static final int DATE_ID = 0;
     public int Year, Month, Day;
-    private int mYear, mMonth, mDay, mHour, mMinute;
+    private int mYear, mMonth, mDay;
 
     public AddFoodTable(){
         final Calendar c = Calendar.getInstance();
@@ -103,7 +102,6 @@ public class AddFoodTable extends ActionBarActivity {
                     in.putExtra("date",  dateview.getText().toString());
                     in.putExtra("kcal", tmp);
                     in.putExtra("totalkcal",total);
-
                     setResult(RESULT_OK, in);
                     finish();
                 }else{
@@ -173,7 +171,6 @@ public class AddFoodTable extends ActionBarActivity {
                 }
 
                 editAdd_search.setText("");
-                //items.add(name);
                 adapter.notifyDataSetChanged();
 
             }
@@ -212,11 +209,20 @@ public class AddFoodTable extends ActionBarActivity {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        switch (item.getItemId()){
+            case R.id.ActivtiyDel:
+                if(check){
+                    Intent in = new Intent();
+                    in.putExtra("date01",  dateview.getText().toString());
+                    setResult(RESULT_OK, in);
+                    finish();
+                }else{
+                    Toast.makeText(getApplicationContext(), "날짜를 설정하세요.",Toast.LENGTH_SHORT).show();
+                }
+
+
+                break;
         }
 
         return super.onOptionsItemSelected(item);

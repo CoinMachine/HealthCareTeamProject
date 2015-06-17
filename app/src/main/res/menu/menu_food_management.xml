@@ -2,8 +2,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.example.jongjun.healthcare.FoodManagement">
+
     <item android:id="@+id/menu_add_food"
-        android:title="식단 추가"></item>
-    <item android:id="@+id/menu_del_food"
-        android:title="식단 삭제"></item>
+        android:title="식단 추가"
+        android:icon="@drawable/ic_action_edit"
+        app:showAsAction="always"></item>
+
 </menu>
