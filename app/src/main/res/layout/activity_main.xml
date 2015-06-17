@@ -53,14 +53,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/userButton"
-            android:src="@drawable/user"/>
+            android:src="@drawable/user1"/>
 
         <ImageButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/imageButton"
             android:layout_gravity="center_vertical"
-            android:src="@drawable/food"/>
+            android:src="@drawable/food1"/>
 
     </LinearLayout>
 
@@ -74,7 +74,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/exerciseButton"
-            android:src="@drawable/exercise" />
+            android:src="@drawable/exercise1" />
 
         <ImageButton
             android:layout_width="wrap_content"
@@ -95,6 +95,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/counterButton"
-            android:src="@drawable/counter"/>
+            android:src="@drawable/counter1"/>
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/imageButton2"
+            android:src="@drawable/info1" />
     </LinearLayout>
 </LinearLayout>
