@@ -17,8 +17,8 @@
         android:layout_height="wrap_content">
         <ImageView
             android:src="@drawable/ic_action_camera"
-            android:layout_width="110dp"
-            android:layout_height="110dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:id="@+id/imageView" />
         <Button
             android:id="@+id/btn_cal"
@@ -34,7 +34,6 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent">
         <ListView
-            android:layout_weight="1"
             android:id="@+id/manage_list"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"></ListView>

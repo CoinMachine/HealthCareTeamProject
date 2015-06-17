@@ -1,5 +1,6 @@
 package com.example.jongjun.healthcare;
 
+import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Intent;
@@ -25,7 +26,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 
 //운동일지를 생성해서 저장 해 줄 클래스
-public class LogAddActivity extends ActionBarActivity {
+public class LogAddActivity extends Activity {
 
     ImageView photo;
     EditText memo,weight;

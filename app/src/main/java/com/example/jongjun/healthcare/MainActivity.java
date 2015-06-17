@@ -1,6 +1,7 @@
 package com.example.jongjun.healthcare;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -12,6 +13,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -49,7 +51,8 @@ public class MainActivity extends Activity {
 
     static final int EXERCISE_VIEW = 1;
     static final int USER_SET_VIEW = 2;
-    ImageButton exerciseButton, userButton, infoButton,counterButton,foodButton;
+    static final int DIALOG_INFO=3;
+    ImageButton exerciseButton, userButton, infoButton,counterButton,foodButton,infoButton2;
     TextView name, weight;
     UserData userData;
     SerialBitmap userImage;
@@ -68,6 +71,7 @@ public class MainActivity extends Activity {
         infoButton = (ImageButton) findViewById(R.id.infoButton);
         counterButton=(ImageButton)findViewById(R.id.counterButton);
         foodButton=(ImageButton)findViewById(R.id.foodButton);
+        infoButton2=(ImageButton)findViewById(R.id.infoButton2);
 
 
 
@@ -158,7 +162,25 @@ public class MainActivity extends Activity {
                 startActivity(intent);
             }
         });
+        infoButton2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showDialog(DIALOG_INFO);
+            }
+        });
 
+    }
+    @Override
+    protected Dialog onCreateDialog(int id){
+        Dialog dialog=null;
+        switch (id){
+            case DIALOG_INFO:
+                dialog=new Dialog(this);
+                dialog.setContentView(R.layout.dialog_info_application);
+                dialog.setTitle("도움말");
+                break;
+        }
+        return dialog;
     }
 
     @Override
