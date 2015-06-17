@@ -12,6 +12,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 
@@ -43,6 +44,7 @@ public class FoodManagement extends ActionBarActivity {
     String lkcal, ldate, ltotalkcal;
     int index=0;
     String a;
+    ImageView image;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,6 +74,12 @@ public class FoodManagement extends ActionBarActivity {
                 startActivity(in);
             }
         });
+        image=(ImageView)findViewById(R.id.imageView);
+
+        if(getIntent().getBooleanExtra("bImage",false)){
+            SerialBitmap serialBitmap = (SerialBitmap)getIntent().getSerializableExtra("userImage");
+            image.setImageBitmap(serialBitmap.getBitmap());
+        }
 
     }
 

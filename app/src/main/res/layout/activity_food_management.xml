@@ -16,9 +16,10 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content">
         <ImageView
-            android:src="@drawable/abc_btn_check_to_on_mtrl_015"
+            android:src="@drawable/ic_action_camera"
             android:layout_width="110dp"
-            android:layout_height="110dp" />
+            android:layout_height="110dp"
+            android:id="@+id/imageView" />
         <Button
             android:id="@+id/btn_cal"
             android:text="칼로리표"

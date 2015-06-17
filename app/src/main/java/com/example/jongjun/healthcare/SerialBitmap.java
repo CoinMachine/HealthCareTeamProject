@@ -17,6 +17,9 @@ class SerialBitmap implements Serializable {
     public Bitmap bitmap;
 
     // TODO: Finish this constructor
+    SerialBitmap(){
+
+    }
     SerialBitmap(Bitmap bitmap) {
         // Take your existing call to BitmapFactory and put it here
         this.bitmap = SerialBitmap.imgRotate(bitmap);

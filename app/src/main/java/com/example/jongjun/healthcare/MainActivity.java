@@ -2,6 +2,7 @@ package com.example.jongjun.healthcare;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -44,11 +45,16 @@ class UserData implements Serializable{
 }
 public class MainActivity extends Activity {
     final String FILENAME1 = "user.dat";
+    final String FILENAME_USER_IMAGE = "userImage.dat";
+
     static final int EXERCISE_VIEW = 1;
     static final int USER_SET_VIEW = 2;
     ImageButton exerciseButton, userButton, infoButton,counterButton,foodButton;
     TextView name, weight;
     UserData userData;
+    SerialBitmap userImage;
+
+    boolean bImage=false,bUserData=false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,12 +69,15 @@ public class MainActivity extends Activity {
         counterButton=(ImageButton)findViewById(R.id.counterButton);
         foodButton=(ImageButton)findViewById(R.id.foodButton);
 
+
+
         try {
             FileInputStream fis = openFileInput(FILENAME1);
             ObjectInputStream ois = new ObjectInputStream(fis);
             userData = (UserData) ois.readObject();
             name.setText(userData.name);
             weight.setText(userData.weight);
+            bUserData=true;
             ois.close();
             fis.close();
         } catch (FileNotFoundException e) {
@@ -80,6 +89,24 @@ public class MainActivity extends Activity {
         } catch (ClassNotFoundException e2) {
             //디버깅용 코드
             Toast.makeText(getApplicationContext(), "class not found exception1", Toast.LENGTH_SHORT).show();
+        }
+
+        try {
+            FileInputStream fis = openFileInput(FILENAME_USER_IMAGE);
+            ObjectInputStream ois = new ObjectInputStream(fis);
+            userImage = (SerialBitmap) ois.readObject();
+            bImage=true;
+            ois.close();
+            fis.close();
+        } catch (FileNotFoundException e) {
+            userImage = new SerialBitmap(Bitmap.createBitmap(300,200, Bitmap.Config.ARGB_8888));
+            bImage=false;
+        } catch (IOException e1) {
+            //디버깅용 코드
+            //Toast.makeText(getApplicationContext(), "IO exception1", Toast.LENGTH_SHORT).show();
+        } catch (ClassNotFoundException e2) {
+            //디버깅용 코드
+            //Toast.makeText(getApplicationContext(), "class not found exception1", Toast.LENGTH_SHORT).show();
         }
 
 
@@ -96,6 +123,12 @@ public class MainActivity extends Activity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, UserSetActivity.class);
+                intent.putExtra("bImage",bImage);
+                if(bImage)
+                    intent.putExtra("userImage",userImage);
+                intent.putExtra("bUserData",bUserData);
+                if(bUserData)
+                    intent.putExtra("userData",userData);
                 startActivityForResult(intent, USER_SET_VIEW);
             }
         });
@@ -120,6 +153,8 @@ public class MainActivity extends Activity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this,FoodManagement.class);
+                intent.putExtra("bImage",bImage);
+                intent.putExtra("userImage",userImage);
                 startActivity(intent);
             }
         });
@@ -139,6 +174,9 @@ public class MainActivity extends Activity {
                 weight.setText(data.getStringExtra("weight"));
                 userData.name = data.getStringExtra("name");
                 userData.weight = data.getStringExtra("weight");
+                userImage=(SerialBitmap)data.getSerializableExtra("userImage");
+                bImage=true;
+                bUserData=true;
             }
         }
 
@@ -151,6 +189,19 @@ public class MainActivity extends Activity {
             FileOutputStream fos = openFileOutput(FILENAME1, MODE_PRIVATE);
             ObjectOutputStream oos = new ObjectOutputStream(fos);
             oos.writeObject(userData);
+            oos.close();
+            fos.close();
+        } catch (FileNotFoundException e) {
+            //디버깅용 코드
+            Toast.makeText(getApplicationContext(), "File not found exception2", Toast.LENGTH_SHORT).show();
+        } catch (IOException e1) {
+            //디버깅용 코드
+            Toast.makeText(getApplicationContext(), "IO exception2", Toast.LENGTH_SHORT).show();
+        }
+        try {
+            FileOutputStream fos = openFileOutput(FILENAME_USER_IMAGE, MODE_PRIVATE);
+            ObjectOutputStream oos = new ObjectOutputStream(fos);
+            oos.writeObject(userImage);
             oos.close();
             fos.close();
         } catch (FileNotFoundException e) {
