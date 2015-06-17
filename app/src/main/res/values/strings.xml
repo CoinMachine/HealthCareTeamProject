@@ -7,4 +7,8 @@
     <string name="title_activity_log_add">LogAddActivity</string>
     <string name="title_activity_user_set">UserSetActivity</string>
     <string name="title_activity_shake">ShakeActivity</string>
+    <string name="title_activity_food_management">FoodManagement</string>
+    <string name="title_activity_calorie_table">CalorieTable</string>
+    <string name="title_activity_add_food_table">AddFoodTable</string>
+
 </resources>

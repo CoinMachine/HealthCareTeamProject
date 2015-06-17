@@ -36,6 +36,18 @@
             android:name=".ShakeActivity"
             android:label="@string/title_activity_shake" >
         </activity>
+        <activity
+            android:name=".FoodManagement"
+            android:label="@string/title_activity_food_management" >
+        </activity>
+        <activity
+            android:name=".CalorieTable"
+            android:label="@string/title_activity_calorie_table" >
+        </activity>
+        <activity
+            android:name=".AddFoodTable"
+            android:label="@string/title_activity_add_food_table" >
+        </activity>
     </application>
 
 </manifest>

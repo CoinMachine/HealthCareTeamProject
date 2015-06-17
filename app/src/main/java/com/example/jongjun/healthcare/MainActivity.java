@@ -46,7 +46,7 @@ public class MainActivity extends Activity {
     final String FILENAME1 = "user.dat";
     static final int EXERCISE_VIEW = 1;
     static final int USER_SET_VIEW = 2;
-    ImageButton exerciseButton, userButton, infoButton,counterButton;
+    ImageButton exerciseButton, userButton, infoButton,counterButton,foodButton;
     TextView name, weight;
     UserData userData;
 
@@ -61,6 +61,7 @@ public class MainActivity extends Activity {
         userButton = (ImageButton) findViewById(R.id.userButton);
         infoButton = (ImageButton) findViewById(R.id.infoButton);
         counterButton=(ImageButton)findViewById(R.id.counterButton);
+        foodButton=(ImageButton)findViewById(R.id.foodButton);
 
         try {
             FileInputStream fis = openFileInput(FILENAME1);
@@ -112,6 +113,13 @@ public class MainActivity extends Activity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this,ShakeActivity.class);
+                startActivity(intent);
+            }
+        });
+        foodButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this,FoodManagement.class);
                 startActivity(intent);
             }
         });
